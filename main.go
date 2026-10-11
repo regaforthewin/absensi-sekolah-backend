@@ -27,7 +27,11 @@ func main() {
 	}
 
 	// Create Gin engine
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Logger(), gin.Recovery())
+	if err := r.SetTrustedProxies(nil); err != nil {
+		log.Fatalf("Failed to set trusted proxies: %v", err)
+	}
 
 	// Register API routes
 	routes.SetupRoutes(r)
